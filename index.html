@@ -7,8 +7,12 @@
   <style>
     :root { --card-w: min(560px, 92vw); }
     * { box-sizing: border-box; }
+
     body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background: radial-gradient(circle at 20% 10%, #ffd1e8 0, transparent 35%),
                   radial-gradient(circle at 80% 20%, #ffe7c7 0, transparent 40%),
@@ -16,6 +20,7 @@
                   #fff6fb;
       overflow:hidden;
     }
+
     .card{
       width: var(--card-w);
       background: rgba(255,255,255,.75);
@@ -27,34 +32,62 @@
       position: relative;
       text-align: center;
     }
-    h1{ margin: 6px 0 8px; font-size: clamp(26px, 4.5vw, 42px); letter-spacing:-0.02em; }
-    .sub{ margin: 0 0 18px; opacity:.8; font-size: clamp(14px, 2.2vw, 16px); line-height:1.4; }
+
+    h1{
+      margin: 6px 0 8px;
+      font-size: clamp(26px, 4.5vw, 42px);
+      letter-spacing:-0.02em;
+    }
+
+    .sub{
+      margin: 0 0 18px;
+      opacity:.85;
+      font-size: clamp(14px, 2.2vw, 16px);
+      line-height:1.45;
+    }
+
     .names{
-      display:inline-flex; gap:10px; padding:10px 14px; border-radius:999px;
+      display:inline-flex;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
       background: rgba(255,0,128,.08);
       border: 1px solid rgba(255,0,128,.12);
       margin-bottom:14px;
       font-weight:600;
     }
-    .btnRow{ position: relative; height: 86px; display: grid; place-items: center; }
+
+    .btnRow{
+      position: relative;
+      height: 86px;
+      display: grid;
+      place-items: center;
+    }
+
     button{
-      appearance:none; border:none; border-radius:999px; padding:12px 18px;
-      font-size:16px; font-weight:700; cursor:pointer;
+      appearance:none;
+      border:none;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
       transition: transform .12s ease, filter .12s ease;
-      user-select:none; touch-action: manipulation;
+      user-select:none;
+      touch-action: manipulation;
     }
-    .primary{
-      background: linear-gradient(135deg, #ff2d8d, #ff6aa9);
-      color:white;
-      box-shadow: 0 12px 26px rgba(255,45,141,.30);
-    }
-    .primary:hover{ transform: translateY(-1px) scale(1.02); filter: brightness(1.03); }
+
+    .primary,
     .yes{
       background: linear-gradient(135deg, #ff2d8d, #ff6aa9);
       color:white;
       box-shadow: 0 12px 26px rgba(255,45,141,.30);
     }
-    .yes:hover{ transform: translateY(-1px) scale(1.02); filter: brightness(1.03); }
+    .primary:hover,
+    .yes:hover{
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.03);
+    }
 
     .no{
       background: rgba(0,0,0,.06);
@@ -66,22 +99,50 @@
     }
     .no:hover{ transform: translateY(-1px); }
 
-    .msg{ margin-top: 14px; min-height: 44px; font-size: 16px; font-weight: 600; }
-    .hint{ margin-top: 6px; font-size: 13px; opacity: .65; }
+    .msg{
+      margin-top: 14px;
+      min-height: 44px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .hint{
+      margin-top: 6px;
+      font-size: 13px;
+      opacity: .65;
+    }
 
-    /* two screens */
+    /* Two screens */
     .screen { display: none; }
     .screen.active { display: block; }
 
+    /* Confetti-ish hearts burst */
     .burst{
-      position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:24px;
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      border-radius:24px;
     }
-    .spark{ position:absolute; font-size:18px; will-change: transform, opacity; }
+    .spark{
+      position:absolute;
+      font-size:18px;
+      will-change: transform, opacity;
+    }
 
-    .bgHearts{ position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+    /* Floating hearts background */
+    .bgHearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
     .bgHearts span{
-      position:absolute; bottom:-40px; font-size: var(--s); left: var(--x);
-      opacity:.25; animation: floatUp var(--d) linear infinite;
+      position:absolute;
+      bottom:-40px;
+      font-size: var(--s);
+      left: var(--x);
+      opacity:.25;
+      animation: floatUp var(--d) linear infinite;
       filter: blur(.2px);
     }
     @keyframes floatUp{
@@ -90,6 +151,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="bgHearts" id="bgHearts" aria-hidden="true"></div>
 
@@ -99,20 +161,24 @@
     <!-- SCREEN 1: INTRO -->
     <section class="screen active" id="screenIntro">
       <div class="names">💞 For <span id="hisNameIntro">My Love</span> 💞</div>
-      <h1 id="introTitle">Hey <span id="husbandNameBig">My Love</span> 👋</h1>
-      <p class="sub" id="introSubtitle">
-        I have a little surprise for you. Ready?
-      </p>
+
+      <h1>Hey <span id="husbandNameBig">My Love</span> 👋</h1>
+
+      <p class="sub" id="introSubtitle"></p>
+
       <div class="btnRow" style="height:auto;">
         <button class="primary" id="startBtn">Open Surprise 🎁</button>
       </div>
+
       <div class="hint">Tap the button 😊</div>
     </section>
 
     <!-- SCREEN 2: QUESTION -->
     <section class="screen" id="screenQuestion">
       <div class="names">💞 From <span id="fromNameTop">Someone</span> 💞</div>
-      <h1 id="title">Will you be my Valentine? 💘</h1>
+
+      <h1>Will you be my Valentine? 💘</h1>
+
       <p class="sub" id="subtitle"></p>
 
       <div class="btnRow">
@@ -126,21 +192,13 @@
   </main>
 
   <script>
-    // ✏️ Customize these:
+    // ✏️ Customize these (edit text here)
     const HUSBAND_NAME = "Masetty";
-    const INTRO_LINE = "Hey husband💛 Your wife has planned something cute,are you ready?";
-    const PERSONAL_LINE = "Dinner + dessert + a big hug?";
+    const FROM_NAME = "Your Wife ❤️";
+    const INTRO_LINE = "Hey husband 💛 It’s your wife. I have a little surprise for you… are you ready, my dear husband?";
+    const PERSONAL_LINE = "This Valentine’s plan is from your wife: dinner + dessert + a big hug 💘";
 
-    // Fill intro
-    document.getElementById("hisNameIntro").textContent = HUSBAND_NAME;
-    document.getElementById("husbandNameBig").textContent = HUSBAND_NAME;
-    document.getElementById("introSubtitle").textContent = INTRO_LINE;
-
-    // Fill question screen
-    document.getElementById("fromNameTop").textContent = FROM_NAME;
-    document.getElementById("subtitle").textContent =
-      `${HUSBAND_NAME}: ${PERSONAL_LINE}`;
-
+    // Elements
     const screenIntro = document.getElementById("screenIntro");
     const screenQuestion = document.getElementById("screenQuestion");
     const startBtn = document.getElementById("startBtn");
@@ -150,6 +208,16 @@
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const burst = document.getElementById("burst");
+
+    // Fill intro text
+    document.getElementById("hisNameIntro").textContent = HUSBAND_NAME;
+    document.getElementById("husbandNameBig").textContent = HUSBAND_NAME;
+    document.getElementById("introSubtitle").textContent = INTRO_LINE;
+
+    // Fill question text
+    document.getElementById("fromNameTop").textContent = FROM_NAME;
+    document.getElementById("subtitle").textContent =
+      `${FROM_NAME} → ${HUSBAND_NAME}: ${PERSONAL_LINE}`;
 
     // Background hearts
     const bg = document.getElementById("bgHearts");
@@ -168,7 +236,8 @@
     function showQuestionScreen() {
       screenIntro.classList.remove("active");
       screenQuestion.classList.add("active");
-      // position the "No" button after screen is visible so sizes are correct
+
+      // Position the "No" button after the screen becomes visible
       setTimeout(() => {
         moveNoButton();
         noBtn.style.left = "58%";
@@ -178,7 +247,7 @@
 
     startBtn.addEventListener("click", showQuestionScreen);
 
-    // "No" button runs away (but stays inside the button row)
+    // "No" button runs away (stays inside the button row)
     function moveNoButton() {
       const row = document.querySelector("#screenQuestion .btnRow");
       const rowRect = row.getBoundingClientRect();
@@ -208,6 +277,7 @@
       msg.textContent = lines[Math.floor(Math.random() * lines.length)];
     });
 
+    // Heart burst on Yes
     function heartBurst() {
       burst.innerHTML = "";
       const rect = burst.getBoundingClientRect();
