@@ -111,7 +111,7 @@
       opacity: .65;
     }
 
-    /* Two screens */
+    /* Two/Three screens */
     .screen { display: none; }
     .screen.active { display: block; }
 
@@ -189,6 +189,23 @@
       <div class="msg" id="msg"></div>
       <div class="hint" id="hint">Tip: try clicking “No” 😄</div>
     </section>
+
+    <!-- SCREEN 3: HAPPY SCREEN -->
+    <section class="screen" id="screenHappy">
+      <div class="names">💘 It’s a YES! 💘</div>
+
+      <h1 id="happyTitle">Happy Valentine’s Day 💖</h1>
+
+      <p class="sub" id="happyMessage"></p>
+
+      <p class="sub" id="happyReminder" style="margin-top:-6px; font-weight:700;"></p>
+
+      <div class="btnRow" style="height:auto;">
+        <button class="primary" id="replayBtn">Replay 🔁</button>
+      </div>
+
+      <div class="hint">P.S. You’re stuck with me 😄</div>
+    </section>
   </main>
 
   <script>
@@ -198,10 +215,17 @@
     const INTRO_LINE = "It’s your wife. I have a little surprise for you… are you ready, my dear husband?";
     const PERSONAL_LINE = "This Valentine’s plan is from your wife: dinner + dessert + a big hug 💘";
 
+    // Screen 3 text:
+    const HAPPY_LINE = `YAY!! 💖 Happy Valentine’s Day, ${HUSBAND_NAME}!!`;
+    const REMINDER_LINE = "Heads up 😌 Don’t forget to surprise me🎁";
+
     // Elements
     const screenIntro = document.getElementById("screenIntro");
     const screenQuestion = document.getElementById("screenQuestion");
+    const screenHappy = document.getElementById("screenHappy");
+
     const startBtn = document.getElementById("startBtn");
+    const replayBtn = document.getElementById("replayBtn");
 
     const msg = document.getElementById("msg");
     const hint = document.getElementById("hint");
@@ -218,6 +242,17 @@
     document.getElementById("fromNameTop").textContent = FROM_NAME;
     document.getElementById("subtitle").textContent = PERSONAL_LINE;
 
+    // Fill happy screen text
+    document.getElementById("happyMessage").textContent = HAPPY_LINE;
+    document.getElementById("happyReminder").textContent = REMINDER_LINE;
+
+    function showScreen(which) {
+      screenIntro.classList.remove("active");
+      screenQuestion.classList.remove("active");
+      screenHappy.classList.remove("active");
+      which.classList.add("active");
+    }
+
     // Background hearts
     const bg = document.getElementById("bgHearts");
     const heartChars = ["💗","💖","💘","💞","💕","💓"];
@@ -233,8 +268,7 @@
     }
 
     function showQuestionScreen() {
-      screenIntro.classList.remove("active");
-      screenQuestion.classList.add("active");
+      showScreen(screenQuestion);
 
       // Position the "No" button after the screen becomes visible
       setTimeout(() => {
@@ -304,10 +338,21 @@
     }
 
     yesBtn.addEventListener("click", () => {
-      msg.textContent = `YAY!! 💖 Happy Valentine’s Day, ${HUSBAND_NAME}!!`;
+      // do the burst first, then switch screens so it feels like a celebration
       heartBurst();
-      noBtn.style.display = "none";
-      yesBtn.textContent = "YES!! 🥰";
+
+      setTimeout(() => {
+        showScreen(screenHappy);
+      }, 300);
+    });
+
+    replayBtn.addEventListener("click", () => {
+      // reset small things
+      msg.textContent = "";
+      noBtn.style.display = "";
+      yesBtn.textContent = "Yes 💖";
+      hint.textContent = "Tip: try clicking “No” 😄";
+      showScreen(screenIntro);
     });
   </script>
 </body>
